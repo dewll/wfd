@@ -28,11 +28,11 @@ class SuperAdmin(User):
         db_table = "SuperAdmin"
         
     def __str__(self):
-        return self.role
+        return self.email
     
 class StationManager(User):
     station_name = models.CharField(max_length = 20)
-    fullname = models.CharField(max_length = 20)
+    fullname = models.CharField(max_length = 100)
     location = models.CharField(max_length = 150)
     state = models.CharField(max_length = 150)
     business_reg_num = models.IntegerField()
@@ -41,4 +41,4 @@ class StationManager(User):
         db_table = "StationManager"
         
     def __str__(self):
-        return self.station_name
+        return self.email
