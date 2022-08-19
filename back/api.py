@@ -1,11 +1,16 @@
 from ninja_extra import NinjaExtraAPI, api_controller, http_get,http_post
 from django.contrib.auth import authenticate
 from .import models
-from . import schemas
-from ninja import Schema
-    
+from .import schemas
+from .import authorization
+
+
 @api_controller('/',tags=["WFD"])
 class Station:
+    @http_get('/home', auth=authorization.AuthBearer())
+    def Home(self,request):
+        return{'message':request.auth}
+    
     @http_post('/users',response={201: schemas.RegistrationSchemaOut,400: schemas.Error})
     def registration (self, payload: schemas.RegistrationSchemaIn):
         data = payload.dict()
@@ -41,7 +46,7 @@ class Station:
                 user.save()
                 return 201, {"message":"Registration Successfull"}
 
-    @http_post('/signin',response={200: schemas.LoginSchemaOut,400: schemas.Error})
+    @http_post('/signin',response={200: schemas.TokenSchema,400: schemas.Error})
     def signin(self, payload: schemas.LoginSchemaIn):
         data = payload.dict()
         email = data['email']
@@ -52,8 +57,8 @@ class Station:
             return 400, {"message":"please enter password"}
         user = authenticate(email=email, password=password)
         if user is not None:
-            print('yes')
-            return {"message":"success"}
+            access = authorization.create_token(email)
+            return 200, {'access':access}
         return 400, {"message": "Invalid username or password"}
     
 

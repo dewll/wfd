@@ -1,6 +1,10 @@
 from ninja import Schema
 
 
+
+class TokenSchema(Schema):
+    access: str
+
 class RegistrationSchemaIn(Schema):
     email: str
     password: str
@@ -19,9 +23,6 @@ class RegistrationSchemaOut(Schema):
 class LoginSchemaIn(Schema):
     email: str
     password: str
-    
-class LoginSchemaOut(Schema):
-    message: str
     
     
 class Error(Schema):
