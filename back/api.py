@@ -59,7 +59,7 @@ class Station:
         if user is not None:
             access = authorization.create_token(email)
             return 200, {'access':access}
-        return 400, {"message": "Invalid username or password"}
+        return 400, {"message": "Invalid email or password"}
     
 
 
