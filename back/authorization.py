@@ -19,7 +19,7 @@ class AuthBearer(HttpBearer):
 
 def create_token(email):
     JWT_SIGNING_KEY = getattr(settings, "SIGNING_KEY", None)
-    JWT_ACCESS_EXPIRY = getattr(settings, "ACCESS_TOKEN_LIFETIME", 15) # 15 minutes expiration
+    JWT_ACCESS_EXPIRY = getattr(settings, "ACCESS_TOKEN_LIFETIME", 15)
     to_encode_access = {"sub": email}
     access_expire = datetime.datetime.utcnow() + timedelta(minutes=JWT_ACCESS_EXPIRY)
     to_encode_access.update({"exp": access_expire})
