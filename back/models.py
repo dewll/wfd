@@ -30,7 +30,9 @@ class SuperAdmin(User):
     def __str__(self):
         return self.email
     
-class StationManager(User):
+class StationManager(models.Model):
+    email = models.EmailField(unique=True,null = True, blank=True)
+    phone = models.CharField(max_length = 20,null = True, blank=True)
     station_name = models.CharField(max_length = 20)
     fullname = models.CharField(max_length = 100)
     location = models.CharField(max_length = 150)

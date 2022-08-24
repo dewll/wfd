@@ -33,6 +33,9 @@ class Station:
                 user.save()
                 return 201, {"message":"Registration Successfull for SuperAdmin"}
             elif business_reg_num:
+                station_exist = models.StationManager.objects.filter(email=email)
+                if station_exist:
+                    return 400, {"message":"User with the email already exist"}
                 user = models.StationManager.objects.create(email=email, phone = phone, 
                                                             station_name=station_name,
                                                             fullname=fullname,location=location,state=state,
