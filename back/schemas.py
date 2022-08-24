@@ -6,7 +6,7 @@ class TokenSchema(Schema):
 
 class RegistrationSchemaIn(Schema):
     email: str
-    password: str
+    password: str =None
     phone: str = None
     account_type:str = None
     station_name:str = None

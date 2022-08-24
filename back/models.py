@@ -36,6 +36,7 @@ class StationManager(User):
     location = models.CharField(max_length = 150)
     state = models.CharField(max_length = 150)
     business_reg_num = models.IntegerField()
+    is_verified = models.BooleanField(default=False)
     
     class Meta:
         db_table = "StationManager"

@@ -34,11 +34,10 @@ class Station:
                 return 201, {"message":"Registration Successfull for SuperAdmin"}
             elif business_reg_num:
                 user = models.StationManager.objects.create(email=email, phone = phone, 
-                                                            password=password, station_name=station_name,
+                                                            station_name=station_name,
                                                             fullname=fullname,location=location,state=state,
                                                             business_reg_num=business_reg_num)
-                user.set_password(password)
-                user.save()
+                
                 return 201, {"message":"Registration Successfull for Station Manager"}
             else:
                 user = models.User.objects.create(email=email, password=password)
