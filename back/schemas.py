@@ -7,8 +7,8 @@ class TokenSchema(Schema):
 class RegistrationSchemaIn(Schema):
     email: str
     password: str =None
+    username: str =None
     phone: str = None
-    account_type:str = None
     station_name:str = None
     fullname:str = None
     location:str = None

@@ -159,3 +159,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = True
 SIGNING_KEY = os.environ['SECRET_KEY']
 ACCESS_TOKEN_LIFETIME = 30
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

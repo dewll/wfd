@@ -1,47 +1,88 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from . import send_approval_mail
 
 # Create your models here.
 
 class User(AbstractUser):
+    DEFAULT_USER = '0'
+    STATION_MANAGER = '1'
+    USER_TYPE =[
+         (DEFAULT_USER,'DEFAULT_USER'),
+         (STATION_MANAGER,'STATION_MANAGER'),
+    ]
     username = models.CharField(max_length = 20, unique=False, blank=True, null = True)
     first_name = models.CharField(max_length = 20,null = True, blank=True)
     last_name = models.CharField(max_length = 20,null = True, blank=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length = 20,null = True, blank=True)
+    user_type = models.CharField(max_length=50, choices = USER_TYPE, default = DEFAULT_USER, )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
     
     def __str__(self):
         return self.email
+
     
-class SuperAdmin(User):
-    TYPE1 = 'T1'
-    TYPE2 = 'T2'
-    CHOICE_FIELD = [
-        (TYPE1,'ADMIN1'),
-        (TYPE2,'ADMIN2'),
-    ]
-    role = models.CharField(max_length=50, choices = CHOICE_FIELD, default = TYPE1, )
-    
-    class Meta:
-        db_table = "SuperAdmin"
-        
-    def __str__(self):
-        return self.email
-    
-class StationManager(models.Model):
-    email = models.EmailField(unique=True,null = True, blank=True)
-    phone = models.CharField(max_length = 20,null = True, blank=True)
+class StationRequest(models.Model):
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length = 20)
     station_name = models.CharField(max_length = 20)
     fullname = models.CharField(max_length = 100)
     location = models.CharField(max_length = 150)
     state = models.CharField(max_length = 150)
     business_reg_num = models.IntegerField()
-    is_verified = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
+    
+    def save(self, *args,**kwargs):
+        associated_users = ApprovedStation.objects.filter(email=self.email)
+        if self.is_approved == True:
+            if associated_users:
+                pass
+            else:
+                email = self.email
+                phone = self.phone
+                station_name = self.station_name
+                fullname = self.fullname
+                location = self.location
+                state = self.state
+                business_reg_num = self.business_reg_num
+                station_manager = User.objects.create(email=email,password =email,user_type ='1')
+                station_manager.set_password(email)
+                station_manager.save()
+                approve(email,phone,station_name,
+                        fullname,location,state,
+                        business_reg_num,station_manager)
+        super().save(*args,**kwargs)
     
     class Meta:
-        db_table = "StationManager"
+        db_table = "StationRequest"
         
     def __str__(self):
         return self.email
+    
+    
+class ApprovedStation(models.Model):
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length = 20)
+    station_name = models.CharField(max_length = 20)
+    fullname = models.CharField(max_length = 100)
+    location = models.CharField(max_length = 150)
+    state = models.CharField(max_length = 150)
+    business_reg_num = models.IntegerField()
+    station_manager = models.ForeignKey(User, related_name = "approved_station",
+                                        on_delete = models.CASCADE, null = False)
+    
+    class Meta:
+        db_table = "ApprovedStation"
+    
+    def __str__(self):
+        return self.email
+    
+def approve(email,phone,station_name,fullname,location,state,business_reg_num,station_manager):
+    ApprovedStation.objects.create(email=email,phone=phone,
+                                station_name=station_name,
+                                fullname=fullname,location=location,
+                                state=state,business_reg_num=business_reg_num,
+                                station_manager=station_manager)
+    #send_approval_mail.send_mail(email,fullname)

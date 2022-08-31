@@ -1,6 +1,11 @@
-REGISTRATION FOR STATION MANAGER
-'https://wfdap.herokuapp.com/api/users'
-Request body
+## REGISTRATION FOR STATION REQUEST
+
+‘https://wfdap.herokuapp.com/api/users’
+
+##### Request body
+
+```plaintext
+
 {
 "email": "string",
 "phone": "string",
@@ -10,54 +15,87 @@ Request body
 "state": "string",
 "reg_num": int
 }
+```
 
-Response body
+##### Response body
+
 status code 201
+
+```plaintext
+
 body ={
-"message": "Registration Successfull for Station Manager"
+"message": "Form submitted Successfully "
 }
+```
 
-REGISTRATION FOR SUPER ADMIN
-'https://wfdap.herokuapp.com/api/users'
-Request body
-{
-"email": "balosod37@gmail.com",
-"password": "string",
-"account_type": "T1"
+## REGISTRATION FOR SUPER ADMIN
 
-}
-Response body
-status code 201
-body = {
-"message": "Registration Successfull for SuperAdmin"
-}
+‘https://wfdap.herokuapp.com/api/users’
 
-LOGIN
-'https://wfdap.herokuapp.com/api/signin'
-Request body
+##### Request body
+
+```plaintext
+
 {
 "email": "string",
 "password": "string"
 }
+```
 
-Response body
+##### Response body
+
+status code 201
+
+```plaintext
+
+body = {
+"message": "Registration Successfull for SuperAdmin"
+}
+```
+
+## LOGIN
+
+‘https://wfdap.herokuapp.com/api/signin’
+
+##### Request body
+
+```plaintext
+
+{
+"email": "string",
+"password": "string"
+}
+```
+
+##### Response body
+
 status code = 200
+
+```plaintext
+
 body = {
 "access": "string"
 }
+```
 
-PROTECTED ENDPOINT
+## PROTECTED ENDPOINT
+
 'https://wfdap.herokuapp.com/api/home'
-Request body
+
+##### Request body
+
 nothing
 
-Response body
+##### Response body
+
+```plaintext
+
 if valid token the response will be 200 satus
 {
 "message": "the user email"
 }
-
 if invalid token the response will be 401 status
 {
 "detail": "Unauthorized"
 }
+```

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User,SuperAdmin, StationManager
+from .models import User, StationRequest, ApprovedStation
 # Register your models here.
 
 class UserAdmin(admin.ModelAdmin):
@@ -9,5 +9,5 @@ class UserAdmin(admin.ModelAdmin):
      
     
 admin.site.register(User)
-admin.site.register(SuperAdmin)
-admin.site.register(StationManager)
+admin.site.register(StationRequest)
+admin.site.register(ApprovedStation)
