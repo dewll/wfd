@@ -7,7 +7,7 @@ import jwt
 
 class AuthBearer(HttpBearer):
     
-    '''defining call method to manually call authenticate method during testing
+    '''defining call method to call authenticate method during testing
         due to the authenticate method not been called during testing but on
         production we don't need the call method.
     '''

@@ -5,10 +5,10 @@ from . import send_approval_mail
 # Create your models here.
 
 class User(AbstractUser):
-    DEFAULT_USER = '0'
+    SUPER_ADMIN = '0'
     STATION_MANAGER = '1'
     USER_TYPE =[
-         (DEFAULT_USER,'DEFAULT_USER'),
+         (SUPER_ADMIN,'SUPER_ADMIN'),
          (STATION_MANAGER,'STATION_MANAGER'),
     ]
     username = models.CharField(max_length = 20, unique=False, blank=True, null = True)
@@ -16,7 +16,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length = 20,null = True, blank=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length = 20,null = True, blank=True)
-    user_type = models.CharField(max_length=50, choices = USER_TYPE, default = DEFAULT_USER, )
+    user_type = models.CharField(max_length=50, choices = USER_TYPE, default = SUPER_ADMIN, )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
     
@@ -27,7 +27,7 @@ class User(AbstractUser):
 class StationRequest(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length = 20)
-    station_name = models.CharField(max_length = 20)
+    station_name = models.CharField(max_length = 100)
     fullname = models.CharField(max_length = 100)
     location = models.CharField(max_length = 150)
     state = models.CharField(max_length = 150)
